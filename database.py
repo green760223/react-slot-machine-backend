@@ -12,9 +12,10 @@ employee_table = sqlalchemy.Table(
     sqlalchemy.Column("name", sqlalchemy.String),
     sqlalchemy.Column("department", sqlalchemy.String),
     sqlalchemy.Column("lottery_eligibility", sqlalchemy.String),
+    sqlalchemy.Column("group", sqlalchemy.String),
     sqlalchemy.Column("employee_id", sqlalchemy.String),
-    sqlalchemy.Column("is_won", sqlalchemy.Boolean),
-    sqlalchemy.Column("is_donated", sqlalchemy.Boolean),
+    sqlalchemy.Column("is_won", sqlalchemy.Boolean, default=False, nullable=False),
+    sqlalchemy.Column("is_donated", sqlalchemy.Boolean, default=False, nullable=False),
 )
 
 connect_args = {"check_same_thread": False} if "sqlite" in config.DATABASE_URL else {}

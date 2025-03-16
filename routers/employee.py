@@ -20,7 +20,7 @@ async def batch_create_employees(file: UploadFile):
     # Read the uploaded EXCEL file
     try:
         df = pd.read_excel(file.file)
-        print("==df==", df.head())
+        print("==df==", df.head(10))
     except Exception as e:
         raise HTTPException(
             status_code=400, detail=f"Failed to process the uploaded file: {str(e)}"
@@ -32,8 +32,7 @@ async def batch_create_employees(file: UploadFile):
         "department",
         "lottery_eligibility",
         "employee_id",
-        "is_won",
-        "is_donated",
+        "group",
     }
 
     if not required_columns.issubset(df.columns):
@@ -50,8 +49,9 @@ async def batch_create_employees(file: UploadFile):
             "department": row["department"],
             "lottery_eligibility": row["lottery_eligibility"],
             "employee_id": row["employee_id"],
-            "is_won": row["is_won"],
-            "is_donated": row["is_donated"],
+            "group": row["group"],
+            "is_won": False,
+            "is_donated": False,
         }
         employees.append(employee_data)
 
