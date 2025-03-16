@@ -89,3 +89,17 @@ async def getEmployeesByGroupTwo():
     query = employee_table.select().where(employee_table.c.group == "2")
     results = await database.fetch_all(query)
     return results
+
+
+"""
+# Get employees by group three
+# GET /api/v1/getEmployeesByGroupThree
+# Response: List of employees in group two (group = 3)
+"""
+
+
+@router.get("/getEmployeesByGroupThree", response_model=list[EmployeeResponse])
+async def getEmployeesByGroupThree():
+    query = employee_table.select().where(employee_table.c.group == "3")
+    results = await database.fetch_all(query)
+    return results
