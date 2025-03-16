@@ -1,5 +1,3 @@
-from typing import List
-
 import pandas as pd
 from fastapi import APIRouter, HTTPException, UploadFile, status
 from sqlalchemy import insert
@@ -65,7 +63,7 @@ async def batch_create_employees(file: UploadFile):
     return "Batch employees data insert successfully"
 
 
-@router.get("/getEmployeesByGroupOne", response_model=List[EmployeeResponse])
+@router.get("/getEmployeesByGroupOne", response_model=list[EmployeeResponse])
 async def getEmployeesByGroupOne():
     query = employee_table.select().where(employee_table.c.group == "1")
     results = await database.fetch_all(query)
