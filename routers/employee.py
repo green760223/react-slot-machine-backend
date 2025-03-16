@@ -1,6 +1,6 @@
 import pandas as pd
 from fastapi import APIRouter, HTTPException, UploadFile, status
-from sqlalchemy import insert
+from sqlalchemy import and_, insert
 
 from database import database, employee_table
 from models.employee import EmployeeResponse
@@ -71,8 +71,10 @@ async def batch_create_employees(file: UploadFile):
 
 
 @router.get("/getEmployeesByGroupOne", response_model=list[EmployeeResponse])
-async def getEmployeesByGroupOne():
-    query = employee_table.select().where(employee_table.c.group == "1")
+async def get_employees_by_group_one():
+    query = employee_table.select().where(
+        and_(employee_table.c.group == "1", employee_table.c.is_won == "0")
+    )
     results = await database.fetch_all(query)
     return results
 
