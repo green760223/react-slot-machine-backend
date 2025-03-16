@@ -88,7 +88,9 @@ async def get_employees_by_group_one():
 
 @router.get("/getEmployeesByGroupTwo", response_model=list[EmployeeResponse])
 async def getEmployeesByGroupTwo():
-    query = employee_table.select().where(employee_table.c.group == "2")
+    query = employee_table.select().where(
+        and_(employee_table.c.group == "2", employee_table.c.is_won == "0")
+    )
     results = await database.fetch_all(query)
     return results
 
@@ -102,7 +104,9 @@ async def getEmployeesByGroupTwo():
 
 @router.get("/getEmployeesByGroupThree", response_model=list[EmployeeResponse])
 async def getEmployeesByGroupThree():
-    query = employee_table.select().where(employee_table.c.group == "3")
+    query = employee_table.select().where(
+        and_(employee_table.c.group == "3", employee_table.c.is_won == "0")
+    )
     results = await database.fetch_all(query)
     return results
 
@@ -116,6 +120,8 @@ async def getEmployeesByGroupThree():
 
 @router.get("/getEmployeesByAllGroupButZero", response_model=list[EmployeeResponse])
 async def getEmployeesByAllGroupButZero():
-    query = employee_table.select().where(employee_table.c.group != "0")
+    query = employee_table.select().where(
+        and_(employee_table.c.group != "0", employee_table.c.is_won == "0")
+    )
     results = await database.fetch_all(query)
     return results
