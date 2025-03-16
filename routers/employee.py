@@ -103,3 +103,17 @@ async def getEmployeesByGroupThree():
     query = employee_table.select().where(employee_table.c.group == "3")
     results = await database.fetch_all(query)
     return results
+
+
+"""
+# Get employees by all group but zero
+# GET /api/v1/getEmployeesByAllGroupButZero
+# Response: List of employees in group two (group != 0)
+"""
+
+
+@router.get("/getEmployeesByAllGroupButZero", response_model=list[EmployeeResponse])
+async def getEmployeesByAllGroupButZero():
+    query = employee_table.select().where(employee_table.c.group != "0")
+    results = await database.fetch_all(query)
+    return results
