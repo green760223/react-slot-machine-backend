@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 
-from databases import database
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
+from database import database
 from routers.employee import router as employee_router
 
 app = FastAPI()

@@ -1,0 +1,62 @@
+import pandas as pd
+from fastapi import APIRouter, HTTPException, UploadFile, status
+from sqlalchemy import insert
+
+from database import database, employee_table
+
+router = APIRouter()
+
+"""
+# Batch create employees
+# POST /api/v1/batch-create-employees
+# Request Body: EXCEL file with columns name, department, lottery_eligibility, employee_id, is_won, is_donated
+"""
+
+
+@router.post(
+    "/batch-create-employees", response_model=str, status_code=status.HTTP_201_CREATED
+)
+async def batch_create_employees(file: UploadFile):
+    # Read the uploaded EXCEL file
+    try:
+        df = pd.read_excel(file.file)
+        print("==df==", df.head())
+    except Exception as e:
+        raise HTTPException(
+            status_code=400, detail=f"Failed to process the uploaded file: {str(e)}"
+        )
+
+    # Check if the required columns are present
+    required_columns = {
+        "name",
+        "department",
+        "lottery_eligibility",
+        "employee_id",
+        "is_won",
+        "is_donated",
+    }
+
+    if not required_columns.issubset(df.columns):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Missing required columns. Required: {required_columns}",
+        )
+
+    # Read the EXCEL file and create a list of employee data
+    employees = []
+    for _, row in df.iterrows():
+        employee_data = {
+            "name": row["name"],
+            "department": row["department"],
+            "lottery_eligibility": row["lottery_eligibility"],
+            "employee_id": row["employee_id"],
+            "is_won": row["is_won"],
+            "is_donated": row["is_donated"],
+        }
+        employees.append(employee_data)
+
+    # Insert the employee data into the database
+    query = insert(employee_table).values(employees)
+    await database.execute(query)
+
+    return "Batch employees data insert successfully"

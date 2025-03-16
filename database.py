@@ -5,7 +5,7 @@ from config import config
 
 metadata = sqlalchemy.MetaData()
 
-employee = sqlalchemy.Table(
+employee_table = sqlalchemy.Table(
     "employee",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
