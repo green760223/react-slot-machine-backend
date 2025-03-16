@@ -25,7 +25,7 @@ class Winner(BaseModel):
     department: str
     employee_id: str
     is_won: Optional[bool] = True
-    is_donated: Optional[bool]
+    is_donated: Optional[bool] = False
 
 
 class WinnersList(BaseModel):

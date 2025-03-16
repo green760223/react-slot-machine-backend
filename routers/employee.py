@@ -1,9 +1,9 @@
 import pandas as pd
-from fastapi import APIRouter, HTTPException, UploadFile, status
+from fastapi import APIRouter, Body, HTTPException, UploadFile, status
 from sqlalchemy import and_, insert
 
 from database import database, employee_table
-from models.employee import EmployeeResponse
+from models.employee import EmployeeResponse, WinnersList
 
 router = APIRouter()
 
@@ -125,3 +125,41 @@ async def getEmployeesByAllGroupButZero():
     )
     results = await database.fetch_all(query)
     return results
+
+
+"""
+# Add winners to the database
+# POST /api/v1/addWinners
+# Request Body: List of winners
+"""
+
+
+@router.post("/addWinners", response_model=dict)
+async def add_winners(winners_data: WinnersList = Body(...)):
+    if not winners_data.winners:
+        raise HTTPException(status_code=400, detail="Winners list cannot be empty")
+
+    winner_updates = []
+    for winner in winners_data.winners:
+        winner_updates.append(
+            {
+                "id": winner.id,
+                "is_won": True,
+                "is_donated": winner.is_donated
+                if winner.is_donated is not None
+                else False,
+            }
+        )
+
+    if not winner_updates:
+        raise HTTPException(status_code=400, detail="No valid winner data provided")
+
+    for winner in winner_updates:
+        query = (
+            employee_table.update()
+            .where(employee_table.c.id == winner["id"])
+            .values(is_won=winner["is_won"], is_donated=winner["is_donated"])
+        )
+        await database.execute(query)
+
+    return {"message": f"成功更新 {len(winner_updates)} 位員工為中獎（包含棄權資訊）"}
