@@ -63,8 +63,29 @@ async def batch_create_employees(file: UploadFile):
     return "Batch employees data insert successfully"
 
 
+"""
+# Get employees by group one
+# GET /api/v1/getEmployeesByGroupOne
+# Response: List of employees in group one (group = 1)
+"""
+
+
 @router.get("/getEmployeesByGroupOne", response_model=list[EmployeeResponse])
 async def getEmployeesByGroupOne():
     query = employee_table.select().where(employee_table.c.group == "1")
+    results = await database.fetch_all(query)
+    return results
+
+
+"""
+# Get employees by group two
+# GET /api/v1/getEmployeesByGroupTwo
+# Response: List of employees in group two (group = 2)
+"""
+
+
+@router.get("/getEmployeesByGroupTwo", response_model=list[EmployeeResponse])
+async def getEmployeesByGroupTwo():
+    query = employee_table.select().where(employee_table.c.group == "2")
     results = await database.fetch_all(query)
     return results
