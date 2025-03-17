@@ -119,8 +119,8 @@ async def get_employees_by_group_three():
 """
 
 
-@router.get("/get-employees-by-all-group", response_model=list[EmployeeResponse])
-async def get_employees_by_all_group():
+@router.get("/get-employees-by-all-groups", response_model=list[EmployeeResponse])
+async def get_employees_by_all_groups():
     query = employee_table.select().where(
         and_(employee_table.c.group != "0", employee_table.c.is_won == "0")
     )
