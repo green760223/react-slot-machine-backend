@@ -66,12 +66,12 @@ async def batch_create_employees(file: UploadFile):
 
 """
 # Get employees by group one
-# GET /api/v1/getEmployeesByGroupOne
+# GET /api/v1/get-employees-by-group-one
 # Response: List of employees in group one (group = 1)
 """
 
 
-@router.get("/getEmployeesByGroupOne", response_model=list[EmployeeResponse])
+@router.get("/get-employees-by-group-one", response_model=list[EmployeeResponse])
 async def get_employees_by_group_one():
     query = employee_table.select().where(
         and_(employee_table.c.group == "1", employee_table.c.is_won == "0")
@@ -82,13 +82,13 @@ async def get_employees_by_group_one():
 
 """
 # Get employees by group two
-# GET /api/v1/getEmployeesByGroupTwo
+# GET /api/v1/get-employees-by-group-two
 # Response: List of employees in group two (group = 2)
 """
 
 
-@router.get("/getEmployeesByGroupTwo", response_model=list[EmployeeResponse])
-async def getEmployeesByGroupTwo():
+@router.get("/get-employees-by-group-two", response_model=list[EmployeeResponse])
+async def get_employees_by_group_two():
     query = employee_table.select().where(
         and_(employee_table.c.group == "2", employee_table.c.is_won == "0")
     )
@@ -98,13 +98,13 @@ async def getEmployeesByGroupTwo():
 
 """
 # Get employees by group three
-# GET /api/v1/getEmployeesByGroupThree
+# GET /api/v1/get-employees-by-group-three
 # Response: List of employees in group two (group = 3)
 """
 
 
-@router.get("/getEmployeesByGroupThree", response_model=list[EmployeeResponse])
-async def getEmployeesByGroupThree():
+@router.get("/get-employees-by-group-three", response_model=list[EmployeeResponse])
+async def get_employees_by_group_three():
     query = employee_table.select().where(
         and_(employee_table.c.group == "3", employee_table.c.is_won == "0")
     )
@@ -114,13 +114,13 @@ async def getEmployeesByGroupThree():
 
 """
 # Get employees by all group but zero
-# GET /api/v1/getEmployeesByAllGroupButZero
+# GET /api/v1/get-employees-by-all-group
 # Response: List of employees in group two (group != 0)
 """
 
 
-@router.get("/getEmployeesByAllGroupButZero", response_model=list[EmployeeResponse])
-async def getEmployeesByAllGroupButZero():
+@router.get("/get-employees-by-all-group", response_model=list[EmployeeResponse])
+async def get_employees_by_all_group():
     query = employee_table.select().where(
         and_(employee_table.c.group != "0", employee_table.c.is_won == "0")
     )
@@ -130,12 +130,12 @@ async def getEmployeesByAllGroupButZero():
 
 """
 # Add winners to the database
-# POST /api/v1/addWinners
+# POST /api/v1/add-winners
 # Request Body: List of winners
 """
 
 
-@router.post("/addWinners", response_model=dict)
+@router.post("/add-winners", response_model=dict)
 async def add_winners(winners_data: WinnersList = Body(...)):
     if not winners_data.winners:
         raise HTTPException(status_code=400, detail="Winners list cannot be empty")
