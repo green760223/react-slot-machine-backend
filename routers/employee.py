@@ -146,6 +146,7 @@ async def add_winners(winners_data: WinnersList = Body(...)):
             {
                 "id": winner.id,
                 "is_won": True,
+                "prize": winner.prize,
                 "is_donated": winner.is_donated
                 if winner.is_donated is not None
                 else False,
@@ -159,7 +160,11 @@ async def add_winners(winners_data: WinnersList = Body(...)):
         query = (
             employee_table.update()
             .where(employee_table.c.id == winner["id"])
-            .values(is_won=winner["is_won"], is_donated=winner["is_donated"])
+            .values(
+                is_won=winner["is_won"],
+                is_donated=winner["is_donated"],
+                prize=winner["prize"],
+            )
         )
         await database.execute(query)
 
