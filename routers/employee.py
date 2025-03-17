@@ -31,8 +31,8 @@ async def batch_create_employees(file: UploadFile):
     required_columns = {
         "name",
         "department",
-        "lottery_eligibility",
         "employee_id",
+        "lottery_eligibility",
         "group",
     }
 
@@ -53,6 +53,7 @@ async def batch_create_employees(file: UploadFile):
             "group": row["group"],
             "is_won": False,
             "is_donated": False,
+            "prize": None,
         }
         employees.append(employee_data)
 

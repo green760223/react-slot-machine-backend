@@ -11,9 +11,10 @@ employee_table = sqlalchemy.Table(
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("name", sqlalchemy.String),
     sqlalchemy.Column("department", sqlalchemy.String),
+    sqlalchemy.Column("employee_id", sqlalchemy.String),
     sqlalchemy.Column("lottery_eligibility", sqlalchemy.String),
     sqlalchemy.Column("group", sqlalchemy.String),
-    sqlalchemy.Column("employee_id", sqlalchemy.String),
+    sqlalchemy.Column("prize", sqlalchemy.String),
     sqlalchemy.Column("is_won", sqlalchemy.Boolean, default=False, nullable=False),
     sqlalchemy.Column("is_donated", sqlalchemy.Boolean, default=False, nullable=False),
 )

@@ -6,10 +6,11 @@ from pydantic import BaseModel
 class EmployeeCreate(BaseModel):
     id: Optional[int] = None
     name: str
-    group: str
     department: str
-    lottery_eligibility: str
     employee_id: str
+    lottery_eligibility: str
+    group: str
+    prize: Optional[str] = None
     is_won: Optional[bool] = False
     is_donated: Optional[bool] = False
 
@@ -24,6 +25,7 @@ class Winner(BaseModel):
     group: str
     department: str
     employee_id: str
+    prize: str
     is_won: Optional[bool] = True
     is_donated: Optional[bool] = False
 
