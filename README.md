@@ -36,6 +36,9 @@ uvicorn main:app --reload
 ```
 API documentation at: http://localhost:8000/docs#
 
+![API documentation preview](https://live.staticflickr.com/65535/54516176433_c715918f33_b.jpg)
+
+
 ## 🧠 Author
 Developed by Yi-Hsuan (Lawrence) Chuang
 
